@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AndroidTraining</string>
+    <string name="demo_name">Hello World</string>
+    <string name="sample_name">Developers</string>
+</resources>
