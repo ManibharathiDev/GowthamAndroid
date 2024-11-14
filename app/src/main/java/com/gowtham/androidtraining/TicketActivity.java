@@ -2,6 +2,7 @@ package com.gowtham.androidtraining;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -11,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class TicketActivity extends AppCompatActivity {
+
+    Button btnSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +31,21 @@ public class TicketActivity extends AppCompatActivity {
         TextView movieName = findViewById(R.id.tvTitle);
         movieName.setText(title);
 
+        btnSuccess = findViewById(R.id.btnSuccess);
+        btnSuccess.setOnClickListener(view -> {
+            Intent intents = getIntent();
+            intents.putExtra("result","success");
+            setResult(RESULT_OK,intents);
+            finish();
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        Intent intents = getIntent();
+//        intents.putExtra("result","success");
+//        setResult(RESULT_OK,intents);
     }
 }
