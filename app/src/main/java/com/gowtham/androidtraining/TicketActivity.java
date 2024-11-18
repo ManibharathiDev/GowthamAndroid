@@ -1,6 +1,7 @@
 package com.gowtham.androidtraining;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class TicketActivity extends AppCompatActivity {
 
     Button btnSuccess;
+    private Movies movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,20 @@ public class TicketActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            movies = intent.getParcelableExtra("movies",Movies.class);
+        }
+
+        TextView movieName = findViewById(R.id.tvTitle);
+        movieName.setText(movies.getTitle());
+        TextView movieDescription = findViewById(R.id.tvDescription);
+        movieDescription.setText(movies.getDescription());
+        TextView movieJourner = findViewById(R.id.tvMovieJourner);
+        movieJourner.setText(movies.getJourner());
+
+
+
+        /*String title = intent.getStringExtra("title");
         TextView movieName = findViewById(R.id.tvTitle);
         movieName.setText(title);
 
@@ -37,7 +52,7 @@ public class TicketActivity extends AppCompatActivity {
             intents.putExtra("result","success");
             setResult(RESULT_OK,intents);
             finish();
-        });
+        });*/
 
     }
 

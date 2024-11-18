@@ -13,11 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    EditText etName;
+    EditText etTitle,etDescription,etJourner,etRatings,etDuration;
     TextView tvResult;
     AppCompatButton btnSubmit;
 
@@ -26,7 +28,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etName = findViewById(R.id.etName);
+        etTitle = findViewById(R.id.etTitle);
+        etDescription = findViewById(R.id.etDescription);
+        etDuration = findViewById(R.id.etDuration);
+        etJourner = findViewById(R.id.etJourner);
+        etRatings = findViewById(R.id.etRatings);
+
         btnSubmit = findViewById(R.id.btnSubmit);
         tvResult = findViewById(R.id.tvResult);
 
@@ -35,15 +42,66 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    String name = etName.getText().toString();
+                    String name = etTitle.getText().toString();
+                    boolean isValid = true;
                     if(TextUtils.isEmpty(name))
                     {
-                        Toast.makeText(getApplicationContext(), "Please enter your name", Toast.LENGTH_SHORT).show();
-                        return;
+                        etTitle.setError("Required Field");
+                        isValid = false;
+                        //Toast.makeText(getApplicationContext(), "Please enter your title", Toast.LENGTH_SHORT).show();
+                        //return;
+                    }
+                    String description = etDescription.getText().toString();
+
+                    if(TextUtils.isEmpty(description))
+                    {
+                        etDescription.setError("Required Field");
+                        isValid = false;
+                        //Toast.makeText(getApplicationContext(), "Please enter your description", Toast.LENGTH_SHORT).show();
+                        //return;
                     }
 
+                    String journers = etJourner.getText().toString();
+                    if(TextUtils.isEmpty(journers))
+                    {
+                        etJourner.setError("Required Field");
+                        isValid = false;
+                        //Toast.makeText(getApplicationContext(), "Please enter your journer", Toast.LENGTH_SHORT).show();
+                        //return;
+                    }
+
+                    String duration = etDuration.getText().toString();
+                    if(TextUtils.isEmpty(duration)){
+                        etDuration.setError("Required Field");
+                        isValid = false;
+                        //Toast.makeText(getApplicationContext(), "Please enter your duration", Toast.LENGTH_SHORT).show();
+                        //return;
+                    }
+
+                    String ratings = etRatings.getText().toString();
+                    if(TextUtils.isEmpty(ratings)){
+                        etRatings.setError("Required Field");
+                        isValid = false;
+                        //Toast.makeText(getApplicationContext(), "Please enter your ratings", Toast.LENGTH_SHORT).show();
+                        //return;
+                    }
+
+                    if(!isValid)
+                        return;
+
+                    Movies movies = new Movies();
+                    movies.setTitle(name);
+                    movies.setDescription(description);
+                    movies.setDuration(Integer.parseInt(duration));
+                    movies.setJourner(journers);
+                    movies.setRating(ratings);
+
+
                     Intent intent = new Intent(MainActivity.this, TicketActivity.class);
-                    intent.putExtra("title", name);
+                    intent.putExtra("movies",movies);
+
+                    //intent.putParcelableArrayListExtra("movies",new ArrayList<Movies>());
+
                     startActivityForResult(intent,100);
                 //startActivity(intent);
                     //finish();
