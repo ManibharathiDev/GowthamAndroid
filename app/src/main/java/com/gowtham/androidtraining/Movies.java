@@ -13,6 +13,11 @@ public class Movies implements Parcelable
     private String journer;
     private String rating;
 
+
+    public Movies() {
+
+    }
+
     protected Movies(Parcel in) {
         title = in.readString();
         description = in.readString();
@@ -32,10 +37,6 @@ public class Movies implements Parcelable
             return new Movies[size];
         }
     };
-
-    public Movies() {
-
-    }
 
     public String getTitle() {
         return title;
@@ -77,6 +78,7 @@ public class Movies implements Parcelable
         this.rating = rating;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -84,6 +86,7 @@ public class Movies implements Parcelable
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
+
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeInt(duration);

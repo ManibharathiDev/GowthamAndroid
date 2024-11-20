@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,19 +18,22 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button login;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LOGIN_PREF", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        sharedPreferences = getApplicationContext().getSharedPreferences("LOGIN_PREF", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         userName = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
 
         String username = sharedPreferences.getString("username","");
-        Log.e(TAG, "onCreate: "+username);
+        Log.e(TAG, "username: "+username);
 
         if(!sharedPreferences.getString("username","").isEmpty())
         {

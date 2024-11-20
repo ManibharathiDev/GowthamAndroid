@@ -1,10 +1,15 @@
 package com.gowtham.androidtraining;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +27,18 @@ public class MainActivity extends AppCompatActivity {
     EditText etTitle,etDescription,etJourner,etRatings,etDuration;
     TextView tvResult;
     AppCompatButton btnSubmit;
+    private Button logout;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("LOGIN_PREF", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         etTitle = findViewById(R.id.etTitle);
         etDescription = findViewById(R.id.etDescription);
@@ -37,79 +49,107 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         tvResult = findViewById(R.id.tvResult);
 
+        logout = findViewById(R.id.btnLogout);
+
+        logout.setOnClickListener(view->{
+
+            editor.remove("username");
+            ///editor.clear();
+            editor.commit();
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            finish();
+        });
+
+        etRatings.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    submitForm();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
 
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    String name = etTitle.getText().toString();
-                    boolean isValid = true;
-                    if(TextUtils.isEmpty(name))
-                    {
-                        etTitle.setError("Required Field");
-                        isValid = false;
-                        //Toast.makeText(getApplicationContext(), "Please enter your title", Toast.LENGTH_SHORT).show();
-                        //return;
-                    }
-                    String description = etDescription.getText().toString();
-
-                    if(TextUtils.isEmpty(description))
-                    {
-                        etDescription.setError("Required Field");
-                        isValid = false;
-                        //Toast.makeText(getApplicationContext(), "Please enter your description", Toast.LENGTH_SHORT).show();
-                        //return;
-                    }
-
-                    String journers = etJourner.getText().toString();
-                    if(TextUtils.isEmpty(journers))
-                    {
-                        etJourner.setError("Required Field");
-                        isValid = false;
-                        //Toast.makeText(getApplicationContext(), "Please enter your journer", Toast.LENGTH_SHORT).show();
-                        //return;
-                    }
-
-                    String duration = etDuration.getText().toString();
-                    if(TextUtils.isEmpty(duration)){
-                        etDuration.setError("Required Field");
-                        isValid = false;
-                        //Toast.makeText(getApplicationContext(), "Please enter your duration", Toast.LENGTH_SHORT).show();
-                        //return;
-                    }
-
-                    String ratings = etRatings.getText().toString();
-                    if(TextUtils.isEmpty(ratings)){
-                        etRatings.setError("Required Field");
-                        isValid = false;
-                        //Toast.makeText(getApplicationContext(), "Please enter your ratings", Toast.LENGTH_SHORT).show();
-                        //return;
-                    }
-
-                    if(!isValid)
-                        return;
-
-                    Movies movies = new Movies();
-                    movies.setTitle(name);
-                    movies.setDescription(description);
-                    movies.setDuration(Integer.parseInt(duration));
-                    movies.setJourner(journers);
-                    movies.setRating(ratings);
-
-
-                    Intent intent = new Intent(MainActivity.this, TicketActivity.class);
-                    intent.putExtra("movies",movies);
-
-                    //intent.putParcelableArrayListExtra("movies",new ArrayList<Movies>());
-
-                    startActivityForResult(intent,100);
-                //startActivity(intent);
-                    //finish();
+                submitForm();
 
             }
         });
 
 
+    }
+
+    private void submitForm() {
+        String name = etTitle.getText().toString();
+        boolean isValid = true;
+        if(TextUtils.isEmpty(name))
+        {
+            etTitle.setError("Required Field");
+            isValid = false;
+            //Toast.makeText(getApplicationContext(), "Please enter your title", Toast.LENGTH_SHORT).show();
+            //return;
+        }
+        String description = etDescription.getText().toString();
+
+        if(TextUtils.isEmpty(description))
+        {
+            etDescription.setError("Required Field");
+            isValid = false;
+            //Toast.makeText(getApplicationContext(), "Please enter your description", Toast.LENGTH_SHORT).show();
+            //return;
+        }
+
+        String journers = etJourner.getText().toString();
+        if(TextUtils.isEmpty(journers))
+        {
+            etJourner.setError("Required Field");
+            isValid = false;
+            //Toast.makeText(getApplicationContext(), "Please enter your journer", Toast.LENGTH_SHORT).show();
+            //return;
+        }
+
+        String duration = etDuration.getText().toString();
+        if(TextUtils.isEmpty(duration)){
+            etDuration.setError("Required Field");
+            isValid = false;
+            //Toast.makeText(getApplicationContext(), "Please enter your duration", Toast.LENGTH_SHORT).show();
+            //return;
+        }
+
+        String ratings = etRatings.getText().toString();
+        if(TextUtils.isEmpty(ratings)){
+            etRatings.setError("Required Field");
+            isValid = false;
+            //Toast.makeText(getApplicationContext(), "Please enter your ratings", Toast.LENGTH_SHORT).show();
+            //return;
+        }
+
+        if(!isValid)
+            return;
+
+        Movies movies = new Movies();
+        movies.setTitle(name);
+        movies.setDescription(description);
+        movies.setDuration(Integer.parseInt(duration));
+        movies.setJourner(journers);
+        movies.setRating(ratings);
+
+
+        Intent intent = new Intent(MainActivity.this, TicketActivity.class);
+        intent.putExtra("movies",movies);
+
+        //intent.putParcelableArrayListExtra("movies",new ArrayList<Movies>());
+
+        startActivityForResult(intent,100);
+        //startActivity(intent);
+        //finish();
     }
 
     @Override

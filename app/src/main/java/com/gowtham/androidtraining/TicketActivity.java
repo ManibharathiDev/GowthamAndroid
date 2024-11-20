@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,12 @@ public class TicketActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             movies = intent.getParcelableExtra("movies",Movies.class);
+        }
+
+        if(movies == null)
+        {
+            Toast.makeText(getApplicationContext(), "Movies is null", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         TextView movieName = findViewById(R.id.tvTitle);
