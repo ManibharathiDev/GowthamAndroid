@@ -1,6 +1,8 @@
 package com.gowtham.androidtraining;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,8 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -78,13 +83,65 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitForm();
+                //loading();
+                //submitForm();
+                //confirmation();
+                loadings();
 
             }
         });
 
 
     }
+
+    private void loadings(){
+        BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_loading);
+        dialog.setCancelable(false);
+        Button btnClose = dialog.findViewById(R.id.btnCloseDialog);
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+
+    }
+
+    private void loading(){
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_loading);
+        dialog.setCancelable(false);
+        Button btnClose = dialog.findViewById(R.id.btnCloseDialog);
+        btnClose.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private void confirmation(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Confirmation");
+        alertDialog.setMessage("Do you want to submit?");
+        alertDialog.setCancelable(false);
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                submitForm();
+            }
+        });
+
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"Form Submit is Cancelled by user",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.setNeutralButton("Login", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"Neutralized",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.show();
+    }
+
 
     private void submitForm() {
         String name = etTitle.getText().toString();
