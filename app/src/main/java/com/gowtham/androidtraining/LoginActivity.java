@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.gowtham.androidtraining.ui.AdapterActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.putString("username",userName.getText().toString());
             editor.putString("password",password.getText().toString());
             editor.commit();
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, CustomListActivity.class));
             finish();
         });
 
