@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -85,11 +87,39 @@ public class MovieListActivity extends AppCompatActivity {
         MovieAdapter movieAdapter = new MovieAdapter(this, moviesArrayList);
         listView.setAdapter(movieAdapter);
 
+        listView.setVisibility(View.GONE);
+
         listView.setOnItemClickListener((adapterView, view, index, l) -> {
             Movies movies1 = moviesArrayList.get(index);
             Toast.makeText(getApplicationContext(), "You have selected " + movies1.getTitle(), Toast.LENGTH_SHORT).show();
         });
 
+        Spinner pSpinner = findViewById(R.id.spMovies);
+        pSpinner.setAdapter(movieAdapter);
+
+        pSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Movies movies1 = moviesArrayList.get(0);
+                Toast.makeText(getApplicationContext(), "You have selected " + movies1.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        Button getBtn = findViewById(R.id.getItem);
+        getBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int position = pSpinner.getSelectedItemPosition();
+
+                Toast.makeText(getApplicationContext(), "You have selected " + moviesArrayList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 

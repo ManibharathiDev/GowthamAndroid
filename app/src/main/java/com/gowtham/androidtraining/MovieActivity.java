@@ -1,10 +1,13 @@
 package com.gowtham.androidtraining;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +20,8 @@ public class MovieActivity extends AppCompatActivity {
 
     //Declaration
     ListView listView;
+
+    Spinner pSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,21 @@ public class MovieActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You have selected " + movieArray[index], Toast.LENGTH_SHORT).show();
             }
         });
+
+        pSpinner = findViewById(R.id.spMovies);
+        ArrayAdapter<String> mySpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,movieArray);
+        mySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pSpinner.setAdapter(mySpinnerAdapter);
+
+        Button getBtn = findViewById(R.id.getItem);
+        getBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "You have selected " + pSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
 
