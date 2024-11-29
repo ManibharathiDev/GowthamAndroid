@@ -24,20 +24,8 @@ public class MovieAdapter extends ArrayAdapter<Movies>
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if(convertView == null)
-        {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_movies, parent, false);
-        }
 
-        TextView tvTitle = convertView.findViewById(R.id.tvTitle);
-        TextView tvDescription = convertView.findViewById(R.id.tvDescription);
-
-        Movies movies = getItem(position);
-        if(movies != null) {
-            tvTitle.setText(movies.getTitle());
-            tvDescription.setText(movies.getDescription());
-        }
-
+        convertView = initView(convertView,parent,position);
         return convertView;
     }
 
@@ -45,6 +33,11 @@ public class MovieAdapter extends ArrayAdapter<Movies>
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        convertView = initView(convertView,parent,position);
+        return convertView;
+    }
+
+    private View initView(View convertView,ViewGroup parent,int position){
         if(convertView == null)
         {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_movies, parent, false);

@@ -62,20 +62,31 @@ public class MovieActivity extends AppCompatActivity {
             }
         });
 
-        pSpinner = findViewById(R.id.spMovies);
-        ArrayAdapter<String> mySpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,movieArray);
-        mySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pSpinner.setAdapter(mySpinnerAdapter);
+        Spinner spinner = findViewById(R.id.spMovies);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,movieArray);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
 
-        Button getBtn = findViewById(R.id.getItem);
-        getBtn.setOnClickListener(new View.OnClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "You have selected " + pSpinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(), "You have selected " + movieArray[i], Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
-
+        Button getItemBtn = findViewById(R.id.getItem);
+        getItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String item = spinner.getSelectedItem().toString();
+                Toast.makeText(getApplicationContext(), "You have selected " + item, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 

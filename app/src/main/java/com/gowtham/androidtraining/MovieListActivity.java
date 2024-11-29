@@ -100,7 +100,7 @@ public class MovieListActivity extends AppCompatActivity {
         pSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Movies movies1 = moviesArrayList.get(0);
+                Movies movies1 = moviesArrayList.get(i);
                 Toast.makeText(getApplicationContext(), "You have selected " + movies1.getTitle(), Toast.LENGTH_SHORT).show();
             }
 
@@ -110,17 +110,11 @@ public class MovieListActivity extends AppCompatActivity {
             }
         });
 
-        Button getBtn = findViewById(R.id.getItem);
-        getBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                int position = pSpinner.getSelectedItemPosition();
-
-                Toast.makeText(getApplicationContext(), "You have selected " + moviesArrayList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-            }
+        Button getItemBtn = findViewById(R.id.getItem);
+        getItemBtn.setOnClickListener(view -> {
+            int position = pSpinner.getSelectedItemPosition();
+            Toast.makeText(getApplicationContext(), "You have selected " + moviesArrayList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
         });
-
 
 
 
